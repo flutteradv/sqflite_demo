@@ -18,6 +18,22 @@ Future<void> insertDog(Dog dog) async {
       conflictAlgorithm: ConflictAlgorithm.replace);
 }
 
+Future<void> updateDog(Dog dog) async{
+  final db = await database();
+  await db.update('dogs', dog.toMap(),
+    where: 'id = ?',
+    whereArgs: [dog.id]
+  );
+}
+
+Future<void> deleteDog(int id) async{
+  final db = await database();
+  await db.delete('dogs',
+    where: 'id = ?',
+    whereArgs: [id]
+  );
+}
+
 Future<List<Dog>> getDogs() async {
   final db = await database();
   final List<Map<String, dynamic>> dogs = await db.query("dogs");
